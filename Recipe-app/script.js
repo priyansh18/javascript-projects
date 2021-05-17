@@ -1,5 +1,8 @@
 const meals = document.getElementById("meals");
 const favoriteContainer = document.getElementById("fav-meals");
+const mealPopup = document.getElementById("meal-popup");
+const popupCloseBtn = document.getElementById("close-popup");
+const mealInfoEl = document.getElementById("meal-info");
 
 // Function Call
 getRandomDeal();
@@ -52,6 +55,11 @@ function addMeal(mealData, random = false) {
     fetchFavMeals();
   });
 
+  meal.addEventListener("click", () => {
+    showMealInfo(mealData);
+  });
+
+  
 }
 
 // Local Storage
@@ -113,5 +121,36 @@ function addMealToFav(mealData) {
     removeMealLocalStorage(mealData.idMeal);
     fetchFavMeals();
   });
+
+  favmeal.addEventListener("click", () => {
+    showMealInfo(mealData);
+  });
+  
   favoriteContainer.appendChild(favmeal);
 }
+
+function showMealInfo(mealData) {
+  mealInfoEl.innerHTML=""
+  
+  const mealInfo = document.createElement("div");
+
+  mealInfoEl.appendChild(mealInfo);
+
+  // Show the popup
+  mealInfoEl.innerHTML = `
+    <h1>${mealData.strMeal}</h1>
+    <img src="${mealData.strMealThumb}" alt="">
+    <p>${mealData.strInstructions}
+    </p>
+    <ul>
+      <li>Ingredient 1 / measure</li>
+      <li>Ingredient 2 / measure</li>
+      <li>Ingredient 3 / measure</li>
+    </ul>`;
+
+  mealPopup.classList.remove("hidden");
+}
+
+popupCloseBtn.addEventListener("click", () => {
+  mealPopup.classList.add("hidden");
+});
