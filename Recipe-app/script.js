@@ -58,8 +58,6 @@ function addMeal(mealData, random = false) {
   meal.addEventListener("click", () => {
     showMealInfo(mealData);
   });
-
-  
 }
 
 // Local Storage
@@ -125,16 +123,27 @@ function addMealToFav(mealData) {
   favmeal.addEventListener("click", () => {
     showMealInfo(mealData);
   });
-  
+
   favoriteContainer.appendChild(favmeal);
 }
 
 function showMealInfo(mealData) {
-  mealInfoEl.innerHTML=""
-  
+  mealInfoEl.innerHTML = "";
+
   const mealInfo = document.createElement("div");
 
   mealInfoEl.appendChild(mealInfo);
+
+  const ingredients = [];
+  // Get Ingredients and measures
+  for (let i = 1; i <= 20; i++) {
+    if (mealData["strIngredient" + i]) {
+      ingredients.push(
+        `${mealData["strIngredient" + i]}/${mealData["strMeasure" + i]}`
+      );
+    } else {
+    }
+  }
 
   // Show the popup
   mealInfoEl.innerHTML = `
@@ -142,10 +151,9 @@ function showMealInfo(mealData) {
     <img src="${mealData.strMealThumb}" alt="">
     <p>${mealData.strInstructions}
     </p>
+    <h3>Ingredients : </h3>
     <ul>
-      <li>Ingredient 1 / measure</li>
-      <li>Ingredient 2 / measure</li>
-      <li>Ingredient 3 / measure</li>
+      ${ingredients.map((ingredient) => `<li class="ing-list" style="list-style-type: disc;">${ingredient}</li>`).join("")}
     </ul>`;
 
   mealPopup.classList.remove("hidden");
